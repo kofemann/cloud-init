@@ -1,0 +1,18 @@
+#cloud-config
+repo_update: true
+repo_upgrade: all
+
+yum_repos:
+    pgdg12:
+        baseurl: https://download.postgresql.org/pub/repos/yum/12/redhat/rhel-$releasever-$basearch
+        enabled: true
+        gpgcheck: true
+        # override AppStream repo: https://bugzilla.redhat.com/show_bug.cgi?id=1718201
+        module_hotfixes: true
+        gpgkey: https://download.postgresql.org/pub/repos/yum/RPM-GPG-KEY-PGDG-12
+        name: PostgreSQL 12 $releasever - $basearch
+
+packages:
+ - postgresql12-server
+
+

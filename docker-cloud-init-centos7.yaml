@@ -1,0 +1,25 @@
+
+#cloud-config
+repo_update: true
+repo_upgrade: all
+
+yum_repos:
+    docker-ce-stable:
+        baseurl: https://download.docker.com/linux/centos/7/$basearch/stable
+        enabled: true
+        gpgcheck: true
+        gpgkey: https://download.docker.com/linux/centos/gpg
+        name: Docker CE Stable - $basearch
+
+packages:
+ - docker-ce
+ - docker-ce-cli
+ - containerd.io
+ - git
+
+runcmd:
+ - systemctl enable --now docker
+ - [sh, -c, 'curl -L https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep "tag_name" | cut -d \" -f4)/docker-compose-$(uname -s)-$(uname -m) > /usr/local/bin/docker-compose']
+ - [sh, -c, "chmod +x /usr/local/bin/docker-compose"]
+ - [sh, -c, "groupmems --add centos --group docker"]
+
